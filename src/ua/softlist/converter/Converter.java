@@ -16,8 +16,16 @@ public class Converter {
         Converter converter = new Converter();
         if(args.length>0) {
             filename = args[0];
-            File file = new File(filename);
-            converter.convertFile(file);
+            try {
+                File file = new File(filename);
+                if(file.exists()) {
+                    converter.convertFile(file);
+                }else{
+                    System.out.println(converter.convertToASCII(args[0]));
+                }
+            }catch (Exception e){
+                System.err.println(e.getMessage());
+            }
         }else{
             System.out.println(homeDir + " directory will be scanned!");
             Collection<File> all = new ArrayList<File>();
@@ -87,7 +95,7 @@ public class Converter {
 
 
     private String getDestinationPath(){
-        File file = new File(homeDir+"\\created");
+        File file = new File(homeDir+"\\result");
         if (!file.exists()) {
             if (file.mkdir()) {
                 System.out.println("Directory is created!");
